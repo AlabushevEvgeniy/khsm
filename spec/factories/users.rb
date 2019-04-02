@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :user do
     # Создаём случайное имя
     name { "Жора_#{rand(999)}" }
-    sequence(:email) { |n| "user#{rand 999}@example.com" }
+    sequence(:email) { |n| "user#{n}@example.com" }
 
     # Email должен быть уникален, поэтому снова используем n
     # При каждом вызове фабрики n будет увеличен,

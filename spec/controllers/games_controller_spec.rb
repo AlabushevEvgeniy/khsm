@@ -34,13 +34,15 @@ RSpec.describe GamesController, type: :controller do
     it 'kicks from #answer' do
       put :answer, id: game_w_questions.id
       expect(response.status).not_to eq(200)
-      # game = assigns(:game)
-      # expect(game.finish_game!).to be_truley
+      expect(response).to redirect_to(new_user_session_path)
+      expect(flash[:alert]).to be
     end
 
     it 'kicks from #take_money' do
       put :take_money, id: game_w_questions
       expect(response.status).not_to eq(200)
+      expect(response).to redirect_to(new_user_session_path)
+      expect(flash[:alert]).to be
     end
   end
 
@@ -101,6 +103,10 @@ RSpec.describe GamesController, type: :controller do
       expect(response).to redirect_to(game_path(game))
       # Флеш пустой
       expect(flash.empty?).to be_truthy
+    end
+
+    it 'answers uncorrect' do
+
     end
 
     it '#show alien game' do

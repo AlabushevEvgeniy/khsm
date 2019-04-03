@@ -105,9 +105,24 @@ RSpec.describe GamesController, type: :controller do
       expect(flash.empty?).to be_truthy
     end
 
-    it 'answers uncorrect' do
+    it 'answers incorrect' do
+      put :answer, id: game_w_questions.id
+      game = assigns(:game)
+      expect(game.answer_current_question!(rand(999))).to be_falsey
+      expect(game.answer_current_question!(rand(999)).to be_falsey
+      # answer_is_correct = assigns(:answer_is_correct)
+      # Игра не закончена
+      expect(game.finished?).to be_truthy
+      # Уровень больше 0
+      expect(game.current_level).to be > 0
 
+      # Редирект на страницу игры
+      expect(response).to redirect_to(game_path(game))
+      # Флеш пустой
+      expect(flash.empty?).to be_truthy
     end
+
+
 
     it '#show alien game' do
       # создаем новую игру, юзер не прописан, будет создан фабрикой новый

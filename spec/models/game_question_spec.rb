@@ -46,4 +46,29 @@ RSpec.describe GameQuestion, type: :model do
       expect(ah.keys).to contain_exactly('a', 'b', 'c', 'd')
     end
   end
+
+      # проверяем работу 50/50
+    it 'correct fifty_fifty' do
+      # сначала убедимся, в подсказках пока нет нужного ключа
+      expect(game_question.help_hash).not_to include(:fifty_fifty)
+      # вызовем подсказку
+      game_question.add_fifty_fifty
+
+      # проверим создание подсказки
+      expect(game_question.help_hash).to include(:fifty_fifty)
+      ff = game_question.help_hash[:fifty_fifty]
+
+      expect(ff).to include('b') # должен остаться правильный вариант
+      expect(ff.size).to eq 2 # всего должно остаться 2 варианта
+    end
+
+    it 'correct friend_call' do
+      expect(game_question.help_hash).not_to include(:friend_call)
+      game_question.add_friend_call
+
+      expect(game_question.help_hash).to include(:friend_call)
+      fr = game_question.help_hash[:friend_call]
+
+      expect(fr.class).to eq(String)
+    end
 end

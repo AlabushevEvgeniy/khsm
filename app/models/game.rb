@@ -143,6 +143,13 @@ class Game < ActiveRecord::Base
           current_game_question.add_audience_help
           return true
         end
+      when :fifty_fifty
+        unless fifty_fifty_used
+          # Метод переключает булево поле в базе
+          toggle!(:fifty_fifty_used)
+          current_game_question.add_fifty_fifty
+          return true
+        end
     end
 
     false

@@ -8,6 +8,11 @@ class UsersController < ApplicationController
   end
 
   def show
+    if user_signed_in?
+      @game_question = @game.current_game_question
+    else
+      redirect_to new_user_session_path, alert: I18n.t('controllers.games.not_your_game')
+    end
   end
 
   private

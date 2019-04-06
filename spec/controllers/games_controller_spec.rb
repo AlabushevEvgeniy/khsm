@@ -12,8 +12,9 @@ RSpec.describe GamesController, type: :controller do
   context 'Anon' do
   # Аноним не может смотреть игру
     it 'kicks from #show' do
+      alien_game = FactoryBot.create(:game_with_questions)
       # Вызываем экшен
-      get :show, id: game_w_questions.id
+      get :show, id: alien_game.id
       # Проверяем ответ
       # статус ответа не равен 200
       expect(response.status).not_to eq(200)
@@ -106,15 +107,13 @@ RSpec.describe GamesController, type: :controller do
     end
 
     it 'answers incorrect' do
-      game_w_questions.update_attribute(:current_level, 2)
-      put :answer, id: game_w_questions.id, letter: ['a'..'z'].sample
+      # game_w_questions.update_attribute(:current_level, 2)
+      put :answer, id: game_w_questions.id, letter: ['a', 'c', 'd'].sample
       game = assigns(:game)
 
       expect(game.answer_current_question!(:letter)).to be_falsey
       # Игра закончена
-      expect(game.finished?).to be_truthy
-      # Уровень больше 0
-      expect(game.current_level).to be > 0
+      expect(game.finished?).to be true
 
       # Редирект на страницу юзера
       expect(response).to redirect_to(user_path(user))
@@ -198,7 +197,8 @@ RSpec.describe GamesController, type: :controller do
       expect(game.finished?).to be_falsey
       expect(game.fifty_fifty_used).to be true
       expect(game.current_game_question.help_hash[:fifty_fifty]).to be
-      expect(game.current_game_question.help_hash[:fifty_fifty].length).to eq(2)
+      expect(game.current_game_question.help_hash[:fifty_fifty].size).to eq(2)
+      expect(game.current_game_question.help_hash[:fifty_fifty]).to include('b')
       expect(response).to redirect_to(game_path(game))
     end
   end

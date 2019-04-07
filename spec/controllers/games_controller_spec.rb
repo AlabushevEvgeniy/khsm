@@ -108,13 +108,13 @@ RSpec.describe GamesController, type: :controller do
 
     it 'answers incorrect' do
       # game_w_questions.update_attribute(:current_level, 2)
-      put :answer, id: game_w_questions.id, letter: ['a', 'c', 'd'].sample
+      put :answer, id: game_w_questions.id, letter: ['a', 'c', 'b'].sample
       game = assigns(:game)
 
       expect(game.answer_current_question!(:letter)).to be_falsey
       # Игра закончена
       expect(game.finished?).to be true
-
+      expect(game.is_failed).to be true
       # Редирект на страницу юзера
       expect(response).to redirect_to(user_path(user))
       # Флеш не пустой
@@ -198,7 +198,7 @@ RSpec.describe GamesController, type: :controller do
       expect(game.fifty_fifty_used).to be true
       expect(game.current_game_question.help_hash[:fifty_fifty]).to be
       expect(game.current_game_question.help_hash[:fifty_fifty].size).to eq(2)
-      expect(game.current_game_question.help_hash[:fifty_fifty]).to include('b')
+      expect(game.current_game_question.help_hash[:fifty_fifty]).to include('d')
       expect(response).to redirect_to(game_path(game))
     end
   end

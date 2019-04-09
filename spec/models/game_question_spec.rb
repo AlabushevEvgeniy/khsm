@@ -69,6 +69,7 @@ RSpec.describe GameQuestion, type: :model do
       expect(game_question.help_hash).to include(:friend_call)
       fr = game_question.help_hash[:friend_call]
 
-      expect(fr.class).to eq(String)
+      # expect(fr.class).to eq(String)
+      expect(fr).to include('считает, что это вариант')
     end
 end
